@@ -1,4 +1,8 @@
 from datetime import datetime
+import json
+import csv
+import random
+from typing import Dict, List
 
 class User:
     def __init__(self, username: str):
@@ -21,33 +25,32 @@ class User:
         for result in self.history:
             print(f"Date: {result['date']} | Catégorie: {result['category']} | Score: {result['score']}%")
 
+
 class QuizManager:
-    def __init__(self):
-        self.questions = {
-            'Python': [
-                {
-                    'question': 'Quelle est la fonction pour afficher du texte en Python?',
-                    'options': ['display()', 'print()', 'show()', 'write()'],
-                    'correct_answer': 1
-                },
-                {
-                    'question': 'Comment déclare-t-on une liste vide en Python?',
-                    'options': ['list()', '[]', 'new List()', '{}'],
-                    'correct_answer': 1
-                },
-                {
-                    'question': 'Quelle méthode permet d\'ajouter un élément à une liste?',
-                    'options': ['add()', 'append()', 'push()', 'insert()'],
-                    'correct_answer': 1
-                },
-                {
-                    'question': 'Quel est le type de données d\'une chaîne de caractères en Python?',
-                    'options': ['text', 'string', 'str', 'chars'],
-                    'correct_answer': 2
-                },
-                {
-                    'question': 'Comment écrit-on une condition "si" en Python?',
-                    'options': ['if:', 'when:', 'switch:', 'case:'],
-                    'correct_answer': 0
-                }
-            ]
+    def loadQuestions(self) -> Dict[str, List[Dict]]:
+        questions = {}
+        try:
+            with open('questions.csv', mode='r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    category = row['category']
+                    question = row['question']
+                    options = [row['option1'], row['option2'], row['option3'], row['option4']]
+                    correctOption = row['correct_answer']
+
+                    shuffledOptions = options[:]
+                    random.shuffle(shuffledOptions)
+                    newCorrectOp = ['a', 'b', 'c', 'd'][shuffledOptions.index(options[int(correctOption) - 1])]
+
+                    question = {
+                        'question': question,
+                        'options': shuffledOptions,
+                        'correct_option': newCorrectOp
+                    }
+
+                    if category not in questions:
+                        questions[category] = []
+                    questions[category].append(question)
+        except FileNotFoundError:
+            print("erreur lors de l'ouverture du fichier")
+        return questions

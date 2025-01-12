@@ -1,0 +1,20 @@
+category,question,option1,option2,option3,option4,correct_answer
+Python,Quelle est la fonction pour afficher du texte en Python?,display(),print(),show(),write(),2
+Python,Comment declare-t-on une liste vide en Python?,list(),[],new List(),{},2
+Python,Quelle methode permet d'ajouter un element a une liste?,add(),append(),push(),insert(),2
+Python,Quel est le type de donnees d'une chaine de caracteres en Python?,text,string,str,chars,3
+Python,Comment ecrit-on une condition "si" en Python?,if:,when:,switch:,case:,1
+Compilation,Qu'est-ce qu'un compilateur?,Un outil pour editer du code,Un programme qui traduit le code source en binaire,Un debogueur,Une interface utilisateur,2
+Compilation,Quel langage est directement compris par un ordinateur?,C,Langage machine,Java,Python,2
+Compilation,Qu'est-ce que l'interpretation?,Traduire du code source ligne par ligne,Executer le code compile,Optimiser le code source,Traduire le code en langage machine,1
+Compilation,Quel est le format des fichiers compiles en C?,.py,.exe,.class,.o,4
+Compilation,Qu'est-ce qu'un langage de haut niveau?,Un langage proche du langage humain,Un langage utilise par les processeurs,Un langage pour les bases de donnees,Un langage reserve a la securite,1
+Web,Quel langage est utilise pour structurer une page web?,HTML,CSS,JavaScript,Python,1
+Web,Quel est le role du CSS?,Ajouter des styles a une page web,Rendre la page interactive,Gerer les donnees d'une page,Configurer un serveur web,1
+Web,Quel est le langage principal pour rendre une page interactive?,PHP,JavaScript,SQL,CSS,2
+Web,Quel protocole est utilise pour afficher des pages web?,HTTP,FTP,SMTP,DNS,1
+Web,Quel est le role d'un serveur web?,Creer une page web,Envoyer des pages web aux utilisateurs,Analyser les donnees des utilisateurs,Gerer les emails,2
+RO,Qu'est-ce que la recherche operationnelle?,Un domaine pour resoudre des problemes d'optimisation,Une methode pour analyser des bases de donnees,Une technique pour developper des logiciels,Un outil pour la programmation web,1
+RO,Quel est un exemple de methode d'optimisation?,Methode de Monte Carlo,Algorithme du simplexe,Analyse en composantes principales,Test unitaire,2
+RO,Quel est l'objectif principal de la programmation lineaire?,Minimiser ou maximiser une fonction,Creer des interfaces utilisateur,Analyser des donnees,Compiler un programme,1
+RO,Qu'est-ce qu'une variable de decision?,Une constante dans un programme,Un parametre pour modeliser un probleme,Une instruction conditionnelle,Une fonction mathematique,2
