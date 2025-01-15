@@ -62,18 +62,18 @@ def loadUsers(self) -> Dict:
         except FileNotFoundError:
             return {}
 
-    def saveUsers(self):
-        with open('users.json', 'w') as f:
-            json.dump(self.users, f, indent=4)
+def saveUsers(self):
+    with open('users.json', 'w') as f:
+        json.dump(self.users, f, indent=4)
 
-    def userLogin(self, username: str) -> User:
-        if username in self.users:
-            userInfos = self.users[username]
-            user = User(username)
-            user.history = userInfos['history']
-            print(f"\nBienvenue a nouveau, {username}!")
-        else:
-            user = User(username)
-            self.users[username] = {'history': []}
-            print(f"\nNouveau profil créé pour {username}!")
-        return user     
+def userLogin(self, username: str) -> User:
+    if username in self.users:
+        userInfos = self.users[username]
+        user = User(username)
+        user.history = userInfos['history']
+        print(f"\nBienvenue a nouveau, {username}!")
+    else:
+        user = User(username)
+        self.users[username] = {'history': []}
+        print(f"\nNouveau profil créé pour {username}!")
+    return user     
