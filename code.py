@@ -28,10 +28,16 @@ class User:
 
 
 class QuizManager:
+    def __init__(self, questions_file: str):
+        self.questions_file = questions_file
+        self.questions = self.loadQuestions()
+        self.users = self.loadUsers()
+
+
     def loadQuestions(self) -> Dict[str, List[Dict]]:
         questions = {}
         try:
-            with open('questions.csv', mode='r', encoding='utf-8') as file:
+            with open(self.questions_file, mode='r', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
                     category = row['category']
@@ -128,3 +134,48 @@ class QuizManager:
                         result['category'],
                         result['score']
                     ])
+
+
+def main():
+    quiz_manager = QuizManager('questions.csv')
+
+    while True:
+        username = input("Entrez votre nom d'utilisateur: ")
+        user = quiz_manager.userLogin(username)
+
+        while True:
+            print("\n1. Commencer un nouveau QCM")
+            print("2. Voir l'historique")
+            print("3. Exporter les résultats")
+            print("4. Changer d'utilisateur")
+            print("5. Quitter")
+
+            choice = input("\nChoisissez une option (1-5): ")
+
+            if choice == '1':
+                print("\nCatégories disponibles:")
+                categories = list(quiz_manager.questions.keys())
+                for i, cat in enumerate(categories, 1):
+                    print(f"{i}. {cat}")
+
+                cat_choice = int(input("\nChoisissez une catégorie (1-{}): ".format(len(categories))))
+                if 1 <= cat_choice <= len(categories):
+                    quiz_manager.runQuiz(user, categories[cat_choice - 1])
+
+            elif choice == '2':
+                user.display_history()
+
+            elif choice == '3':
+                filename = f"resultats_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+                quiz_manager.export_results(filename)
+                print(f"\nresultats exportés dans {filename}")
+
+            elif choice == '4':
+                break
+
+            elif choice == '5':
+                return
+
+
+if __name__ == "__main__":
+    main()
