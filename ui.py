@@ -162,11 +162,14 @@ class QuizApp:
         )
         button_return.pack(pady=20)
 
+    def clear_history(self):
+        self.user.history = []
+        self.quiz_manager.users[self.user.username]["history"] = []
+        self.quiz_manager.saveUsers()
+        messagebox.showinfo("Success", "Quiz history cleared!")
+        self.historyUi()
 
-    
 
-
-    
     def return_to_main_menu(self):
         for widget in self.root.winfo_children():
             widget.destroy()
