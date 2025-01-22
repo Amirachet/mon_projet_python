@@ -179,6 +179,26 @@ class QuizApp:
         filename = f"resultats_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         self.quiz_manager.export_results(filename)
         messagebox.showinfo("Exportation", f"rrsultats exportés dans {filename}")
+        
+    def displayFeedback(self, is_correct, correct_option):
+        for widget in self.quiz_frame.winfo_children():
+            widget.destroy()
+
+        self.label_timer = ctk.CTkLabel(self.quiz_frame, text=f"Time Remaining: {self.timer_seconds} seconds", font=("Arial", 16))
+        self.label_timer.pack(pady=10)
+
+        if is_correct:
+            feedback_text = "Correct!"
+            feedback_color = "green"
+        else:
+            feedback_text = f"Incorrect. The correct answer was: {correct_option}"
+            feedback_color = "red"
+
+        label_feedback = ctk.CTkLabel(self.quiz_frame, text=feedback_text, font=("Arial", 18), text_color=feedback_color)
+        label_feedback.pack(pady=20)
+
+        button_next = ctk.CTkButton(self.quiz_frame, text="Next Question", command=self.next_question, font=("Arial", 16), width=200, height=40)
+        button_next.pack(pady=20)
 
 
 if __name__ == "__main__":
