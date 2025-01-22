@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import customtkinter as ctk
 from tkinter import messagebox
 from code import QuizManager
@@ -27,10 +29,12 @@ class QuizApp:
 
         self.label_username = ctk.CTkLabel(self.login_frame, text="Username:", font=("Arial", 16))
         self.label_username.pack(pady=10)
-        self.entry_username = ctk.CTkEntry(self.login_frame, placeholder_text="Enter your username", font=("Arial", 14), width=300)
+        self.entry_username = ctk.CTkEntry(self.login_frame, placeholder_text="Enter your username", font=("Arial", 14),
+                                           width=300)
         self.entry_username.pack(pady=10)
 
-        self.button_login = ctk.CTkButton(self.login_frame, text="Login", command=self.login, font=("Arial", 16), width=200, height=40)
+        self.button_login = ctk.CTkButton(self.login_frame, text="Login", command=self.login, font=("Arial", 16),
+                                          width=200, height=40)
         self.button_login.pack(pady=20)
 
     def login(self):
@@ -47,15 +51,20 @@ class QuizApp:
         self.main_menu_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         self.main_menu_frame.pack(pady=50, padx=100, fill="both", expand=True)
 
-        label_welcome = ctk.CTkLabel(self.main_menu_frame, text=f"Welcome, {self.user.username}!", font=("Arial", 24, "bold"))
+        label_welcome = ctk.CTkLabel(self.main_menu_frame, text=f"Welcome, {self.user.username}!",
+                                     font=("Arial", 24, "bold"))
         label_welcome.pack(pady=20)
-        button_start_quiz = ctk.CTkButton(self.main_menu_frame, text="Start Quiz", command=self.selectCategorUi, font=("Arial", 16), width=200, height=40)
+        button_start_quiz = ctk.CTkButton(self.main_menu_frame, text="Start Quiz", command=self.selectCategorUi,
+                                          font=("Arial", 16), width=200, height=40)
         button_start_quiz.pack(pady=10)
-        button_view_history = ctk.CTkButton(self.main_menu_frame, text="View History", command=self.historyUi, font=("Arial", 16), width=200, height=40)
+        button_view_history = ctk.CTkButton(self.main_menu_frame, text="View History", command=self.historyUi,
+                                            font=("Arial", 16), width=200, height=40)
         button_view_history.pack(pady=10)
-        button_export_results = ctk.CTkButton(self.main_menu_frame, text="Export Results", command=self.export_results, font=("Arial", 16), width=200, height=40)
+        button_export_results = ctk.CTkButton(self.main_menu_frame, text="Export Results", command=self.export_results,
+                                              font=("Arial", 16), width=200, height=40)
         button_export_results.pack(pady=10)
-        button_quit = ctk.CTkButton(self.main_menu_frame, text="Quit", command=self.root.destroy, font=("Arial", 16), width=200, height=40)
+        button_quit = ctk.CTkButton(self.main_menu_frame, text="Quit", command=self.root.destroy, font=("Arial", 16),
+                                    width=200, height=40)
         button_quit.pack(pady=10)
 
     def selectCategorUi(self):
@@ -70,7 +79,9 @@ class QuizApp:
         categories = list(self.quiz_manager.questions.keys())
 
         for category in categories:
-            button = ctk.CTkButton(self.category_frame, text=category, command=lambda cat=category: self.start_quiz(cat), font=("Arial", 16), width=200, height=40)
+            button = ctk.CTkButton(self.category_frame, text=category,
+                                   command=lambda cat=category: self.start_quiz(cat), font=("Arial", 16), width=200,
+                                   height=40)
             button.pack(pady=10)
 
     def start_quiz(self, category):
@@ -95,7 +106,8 @@ class QuizApp:
         for widget in self.quiz_frame.winfo_children():
             widget.destroy()
 
-        self.label_timer = ctk.CTkLabel(self.quiz_frame, text=f"Time Remaining: {self.timer_seconds} seconds", font=("Arial", 16))
+        self.label_timer = ctk.CTkLabel(self.quiz_frame, text=f"Time Remaining: {self.timer_seconds} seconds",
+                                        font=("Arial", 16))
         self.label_timer.pack(pady=10)
 
         question_data = self.questions[self.current_question_index]
@@ -106,8 +118,19 @@ class QuizApp:
         label_question.pack(pady=20)
 
         for i, option in enumerate(options):
-            button = ctk.CTkButton(self.quiz_frame, text=option, command=lambda opt=option: self.checkAnswer(opt), font=("Arial", 16), width=300, height=40)
+            button = ctk.CTkButton(self.quiz_frame, text=option, command=lambda opt=option: self.checkAnswer(opt),
+                                   font=("Arial", 16), width=300, height=40)
             button.pack(pady=10)
+    def checkAnswer(self, selected_option):
+        correct_option = self.questions[self.current_question_index]["options"][
+            ord(self.questions[self.current_question_index]["correct_option"]) - ord("a")
+        ]
+
+        is_correct = selected_option == correct_option
+        if is_correct:
+            self.score += 1
+
+        self.displayFeedback(is_correct, correct_option)
     def update_timer(self):
         if self.timer_running:
             self.timer_seconds -= 1
@@ -120,7 +143,6 @@ class QuizApp:
                 self.label_timer.configure(text=f"Time Remaining: {self.timer_seconds} seconds")
 
             self.root.after(1000, self.update_timer)
-
 
     def historyUi(self):
         self.main_menu_frame.destroy()
@@ -169,12 +191,11 @@ class QuizApp:
         messagebox.showinfo("Success", "Quiz history cleared!")
         self.historyUi()
 
-
     def return_to_main_menu(self):
         for widget in self.root.winfo_children():
             widget.destroy()
         self.mainMenuUi()
-        
+
     def export_results(self):
         filename = f"resultats_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         self.quiz_manager.export_results(filename)
@@ -184,7 +205,8 @@ class QuizApp:
         for widget in self.quiz_frame.winfo_children():
             widget.destroy()
 
-        self.label_timer = ctk.CTkLabel(self.quiz_frame, text=f"Time Remaining: {self.timer_seconds} seconds", font=("Arial", 16))
+        self.label_timer = ctk.CTkLabel(self.quiz_frame, text=f"Time Remaining: {self.timer_seconds} seconds",
+                                        font=("Arial", 16))
         self.label_timer.pack(pady=10)
 
         if is_correct:
@@ -194,10 +216,12 @@ class QuizApp:
             feedback_text = f"Incorrect. The correct answer was: {correct_option}"
             feedback_color = "red"
 
-        label_feedback = ctk.CTkLabel(self.quiz_frame, text=feedback_text, font=("Arial", 18), text_color=feedback_color)
+        label_feedback = ctk.CTkLabel(self.quiz_frame, text=feedback_text, font=("Arial", 18),
+                                      text_color=feedback_color)
         label_feedback.pack(pady=20)
 
-        button_next = ctk.CTkButton(self.quiz_frame, text="Next Question", command=self.next_question, font=("Arial", 16), width=200, height=40)
+        button_next = ctk.CTkButton(self.quiz_frame, text="Next Question", command=self.next_question,
+                                    font=("Arial", 16), width=200, height=40)
         button_next.pack(pady=20)
 
     def next_question(self):
@@ -208,7 +232,7 @@ class QuizApp:
         else:
             self.timer_running = False
             self.show_results()
-            
+
     def show_results(self):
         self.quiz_frame.destroy()
 
@@ -221,11 +245,14 @@ class QuizApp:
         results_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         results_frame.pack(pady=50, padx=100, fill="both", expand=True)
 
-        label_results = ctk.CTkLabel(results_frame, text=f"Quiz Finished!\nYour Score: {final_score}%", font=("Arial", 24, "bold"))
+        label_results = ctk.CTkLabel(results_frame, text=f"Quiz Finished!\nYour Score: {final_score}%",
+                                     font=("Arial", 24, "bold"))
         label_results.pack(pady=20)
 
-        button_return = ctk.CTkButton(results_frame, text="Return to Main Menu", command=self.return_to_main_menu, font=("Arial", 16), width=200, height=40)
-        button_return.pack(pady=10)          
+        button_return = ctk.CTkButton(results_frame, text="Return to Main Menu", command=self.return_to_main_menu,
+                                      font=("Arial", 16), width=200, height=40)
+        button_return.pack(pady=10)
+
 
 if __name__ == "__main__":
     quiz_manager = QuizManager("questions.csv")
