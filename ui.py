@@ -110,6 +110,51 @@ class QuizApp:
             button.pack(pady=10)
 
     
+    def historyUi(self):
+        self.main_menu_frame.destroy()
+
+        self.history_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        self.history_frame.pack(pady=50, padx=100, fill="both", expand=True)
+
+        label_title = ctk.CTkLabel(self.history_frame, text="Quiz History", font=("Arial", 24, "bold"))
+        label_title.pack(pady=20)
+
+        history = self.user.history
+
+        if not history:
+            label_no_history = ctk.CTkLabel(self.history_frame, text="No quiz history available.", font=("Arial", 16))
+            label_no_history.pack(pady=10)
+        else:
+            for result in history:
+                history_text = f"Date: {result['date']} | Category: {result['category']} | Score: {result['score']}%"
+                label_history = ctk.CTkLabel(self.history_frame, text=history_text, font=("Arial", 16))
+                label_history.pack(pady=5)
+
+        button_clear_history = ctk.CTkButton(
+            self.history_frame,
+            text="Clear History",
+            command=self.clear_history,
+            font=("Arial", 16),
+            width=200,
+            height=40,
+        )
+        button_clear_history.pack(pady=10)
+
+        button_return = ctk.CTkButton(
+            self.history_frame,
+            text="Return to Main Menu",
+            command=self.return_to_main_menu,
+            font=("Arial", 16),
+            width=200,
+            height=40,
+        )
+        button_return.pack(pady=20)
+
+
+    
+
+
+    
     def return_to_main_menu(self):
         for widget in self.root.winfo_children():
             widget.destroy()
