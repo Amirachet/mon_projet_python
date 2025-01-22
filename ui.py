@@ -179,7 +179,7 @@ class QuizApp:
         filename = f"resultats_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         self.quiz_manager.export_results(filename)
         messagebox.showinfo("Exportation", f"rrsultats exportés dans {filename}")
-        
+
     def displayFeedback(self, is_correct, correct_option):
         for widget in self.quiz_frame.winfo_children():
             widget.destroy()
@@ -200,6 +200,14 @@ class QuizApp:
         button_next = ctk.CTkButton(self.quiz_frame, text="Next Question", command=self.next_question, font=("Arial", 16), width=200, height=40)
         button_next.pack(pady=20)
 
+    def next_question(self):
+        self.current_question_index += 1
+
+        if self.current_question_index < len(self.questions):
+            self.displayQuestion()
+        else:
+            self.timer_running = False
+            self.show_results()
 
 if __name__ == "__main__":
     quiz_manager = QuizManager("questions.csv")
