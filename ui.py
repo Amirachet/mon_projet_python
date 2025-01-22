@@ -208,6 +208,24 @@ class QuizApp:
         else:
             self.timer_running = False
             self.show_results()
+            
+    def show_results(self):
+        self.quiz_frame.destroy()
+
+        final_score = int((self.score / len(self.questions)) * 100)
+
+        self.user.add_quiz_result(final_score, self.category)
+        self.quiz_manager.users[self.user.username]["history"] = self.user.history
+        self.quiz_manager.saveUsers()
+
+        results_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        results_frame.pack(pady=50, padx=100, fill="both", expand=True)
+
+        label_results = ctk.CTkLabel(results_frame, text=f"Quiz Finished!\nYour Score: {final_score}%", font=("Arial", 24, "bold"))
+        label_results.pack(pady=20)
+
+        button_return = ctk.CTkButton(results_frame, text="Return to Main Menu", command=self.return_to_main_menu, font=("Arial", 16), width=200, height=40)
+        button_return.pack(pady=10)          
 
 if __name__ == "__main__":
     quiz_manager = QuizManager("questions.csv")
