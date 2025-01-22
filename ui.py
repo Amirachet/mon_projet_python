@@ -180,6 +180,7 @@ class QuizApp:
         self.quiz_manager.export_results(filename)
         messagebox.showinfo("Exportation", f"rrsultats exportés dans {filename}")
 
+
 if __name__ == "__main__":
     quiz_manager = QuizManager("questions.csv")
     root = ctk.CTk()
