@@ -52,8 +52,20 @@ class QuizApp:
         button_quit = ctk.CTkButton(self.main_menu_frame, text="Quit", command=self.root.destroy, font=("Arial", 16), width=200, height=40)
         button_quit.pack(pady=10)
 
+    def selectCategorUi(self):
+        self.main_menu_frame.destroy()
 
+        self.category_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        self.category_frame.pack(pady=50, padx=100, fill="both", expand=True)
 
+        label_title = ctk.CTkLabel(self.category_frame, text="Select a Category", font=("Arial", 24, "bold"))
+        label_title.pack(pady=20)
+
+        categories = list(self.quiz_manager.questions.keys())
+
+        for category in categories:
+            button = ctk.CTkButton(self.category_frame, text=category, command=lambda cat=category: self.start_quiz(cat), font=("Arial", 16), width=200, height=40)
+            button.pack(pady=10)
 
 if __name__ == "__main__":
     quiz_manager = QuizManager("questions.csv")
