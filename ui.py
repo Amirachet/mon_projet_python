@@ -109,6 +109,12 @@ class QuizApp:
             button = ctk.CTkButton(self.quiz_frame, text=option, command=lambda opt=option: self.checkAnswer(opt), font=("Arial", 16), width=300, height=40)
             button.pack(pady=10)
 
+    
+    def return_to_main_menu(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
+        self.mainMenuUi()
+        
 if __name__ == "__main__":
     quiz_manager = QuizManager("questions.csv")
     root = ctk.CTk()
