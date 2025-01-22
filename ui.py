@@ -108,8 +108,20 @@ class QuizApp:
         for i, option in enumerate(options):
             button = ctk.CTkButton(self.quiz_frame, text=option, command=lambda opt=option: self.checkAnswer(opt), font=("Arial", 16), width=300, height=40)
             button.pack(pady=10)
+    def update_timer(self):
+        if self.timer_running:
+            self.timer_seconds -= 1
+            if self.timer_seconds <= 0:
+                self.timer_running = False
+                self.show_results()
+                return
 
-    
+            if hasattr(self, "label_timer"):
+                self.label_timer.configure(text=f"Time Remaining: {self.timer_seconds} seconds")
+
+            self.root.after(1000, self.update_timer)
+
+
     def historyUi(self):
         self.main_menu_frame.destroy()
 
