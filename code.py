@@ -122,18 +122,16 @@ class QuizManager:
         self.saveUsers()
 
         return final_score
-    def export_results(self, filename: str):
-        with open(filename, 'w', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(['Username', 'Date', 'Category', 'Score'])
-            for username, data in self.users.items():
-                for result in data['history']:
-                    writer.writerow([
-                        username,
-                        result['date'],
-                        result['category'],
-                        result['score']
-                    ])
+
+    def export_results(self, user: User, filename: str):
+        if not user.history:
+            raise ValueError("No results to export.")
+
+        with open(filename, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(["Date", "Category", "Score"])  # Header row
+            for result in user.history:
+                writer.writerow([result["date"], result["category"], result["score"]])
 
 
 def main():

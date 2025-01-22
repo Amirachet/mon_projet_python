@@ -131,6 +131,7 @@ class QuizApp:
             self.score += 1
 
         self.displayFeedback(is_correct, correct_option)
+
     def update_timer(self):
         if self.timer_running:
             self.timer_seconds -= 1
@@ -139,7 +140,7 @@ class QuizApp:
                 self.show_results()
                 return
 
-            if hasattr(self, "label_timer"):
+            if hasattr(self, "label_timer") and self.label_timer.winfo_exists():
                 self.label_timer.configure(text=f"Time Remaining: {self.timer_seconds} seconds")
 
             self.root.after(1000, self.update_timer)
@@ -198,7 +199,7 @@ class QuizApp:
 
     def export_results(self):
         filename = f"resultats_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-        self.quiz_manager.export_results(filename)
+        self.quiz_manager.export_results(self.user,filename)
         messagebox.showinfo("Exportation", f"rrsultats exportés dans {filename}")
 
     def displayFeedback(self, is_correct, correct_option):
