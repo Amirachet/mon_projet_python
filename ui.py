@@ -8,6 +8,12 @@ class QuizApp:
         self.root = root
         self.quiz_manager = quiz_manager
         self.user = None
+        self.current_question_index = 0
+        self.score = 0
+        self.category = None
+        self.questions = []
+        self.timer_seconds = 60
+        self.timer_running = False
 
         self.root.title("Quiz Application")
         self.root.geometry("800x600")
@@ -65,6 +71,42 @@ class QuizApp:
 
         for category in categories:
             button = ctk.CTkButton(self.category_frame, text=category, command=lambda cat=category: self.start_quiz(cat), font=("Arial", 16), width=200, height=40)
+            button.pack(pady=10)
+
+    def start_quiz(self, category):
+        self.category_frame.destroy()
+
+        self.category = category
+        self.questions = self.quiz_manager.questions[category]
+        self.current_question_index = 0
+        self.score = 0
+        self.timer_seconds = 60
+        self.timer_running = True
+
+        self.quiz_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        self.quiz_frame.pack(pady=50, padx=100, fill="both", expand=True)
+
+        self.update_timer()
+
+        self.displayQuestion()
+
+    def displayQuestion(self):
+
+        for widget in self.quiz_frame.winfo_children():
+            widget.destroy()
+
+        self.label_timer = ctk.CTkLabel(self.quiz_frame, text=f"Time Remaining: {self.timer_seconds} seconds", font=("Arial", 16))
+        self.label_timer.pack(pady=10)
+
+        question_data = self.questions[self.current_question_index]
+        question = question_data["question"]
+        options = question_data["options"]
+
+        label_question = ctk.CTkLabel(self.quiz_frame, text=question, font=("Arial", 18), wraplength=600)
+        label_question.pack(pady=20)
+
+        for i, option in enumerate(options):
+            button = ctk.CTkButton(self.quiz_frame, text=option, command=lambda opt=option: self.checkAnswer(opt), font=("Arial", 16), width=300, height=40)
             button.pack(pady=10)
 
 if __name__ == "__main__":
