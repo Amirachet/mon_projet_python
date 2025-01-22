@@ -175,6 +175,11 @@ class QuizApp:
             widget.destroy()
         self.mainMenuUi()
         
+    def export_results(self):
+        filename = f"resultats_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        self.quiz_manager.export_results(filename)
+        messagebox.showinfo("Exportation", f"rrsultats exportés dans {filename}")
+
 if __name__ == "__main__":
     quiz_manager = QuizManager("questions.csv")
     root = ctk.CTk()
