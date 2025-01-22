@@ -37,6 +37,20 @@ class QuizApp:
         self.login_frame.destroy()
         self.mainMenuUi()
 
+    def mainMenuUi(self):
+        self.main_menu_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        self.main_menu_frame.pack(pady=50, padx=100, fill="both", expand=True)
+
+        label_welcome = ctk.CTkLabel(self.main_menu_frame, text=f"Welcome, {self.user.username}!", font=("Arial", 24, "bold"))
+        label_welcome.pack(pady=20)
+        button_start_quiz = ctk.CTkButton(self.main_menu_frame, text="Start Quiz", command=self.selectCategorUi, font=("Arial", 16), width=200, height=40)
+        button_start_quiz.pack(pady=10)
+        button_view_history = ctk.CTkButton(self.main_menu_frame, text="View History", command=self.historyUi, font=("Arial", 16), width=200, height=40)
+        button_view_history.pack(pady=10)
+        button_export_results = ctk.CTkButton(self.main_menu_frame, text="Export Results", command=self.export_results, font=("Arial", 16), width=200, height=40)
+        button_export_results.pack(pady=10)
+        button_quit = ctk.CTkButton(self.main_menu_frame, text="Quit", command=self.root.destroy, font=("Arial", 16), width=200, height=40)
+        button_quit.pack(pady=10)
 
 
 
